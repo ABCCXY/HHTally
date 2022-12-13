@@ -7,7 +7,7 @@
         select * from hhtally.user where username=#{username}
     </select>
 
-    <insert id="register" parameterType="User">
-        insert into hhtally.user value (#{userId},#{username},#{password})
+    <insert id="register">
+        insert into hhtally.user value (#{username},#{password})
     </insert>
 </mapper>

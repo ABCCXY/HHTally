@@ -2,12 +2,16 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ylc.hhtally.mapper.UserMapper">
-    <select id="login" resultType="User">
-        select * from hhtally.user where username=#{username}
-    </select>
-
-    <insert id="register" parameterType="User">
-        insert into hhtally.user value (#{userId},#{username},#{password})
+<mapper namespace="com.ylc.hhtally.mapper.LabelMapper">
+    <insert id="add" parameterType="Label">
+        insert into hhtally.label value (#{userId},#{labelName},#{icon})
     </insert>
+
+    <delete id="remove">
+        delete from hhtally.label where labelId=#{labelId}
+    </delete>
+
+    <select id="getAll" resultType="Label">
+        select * from hhtally.label
+    </select>
 </mapper>

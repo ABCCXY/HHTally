@@ -3,15 +3,21 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ylc.hhtally.mapper.BillMapper">
-    <select id="getAll" resultType="Label">
-        select * from hhtally.label
-    </select>
-
-    <insert id="add" parameterType="Label">
-        insert into hhtally.label value (#{labelId},#{userId},#{labelName},#{icon})
+    <insert id="add" parameterType="Bill">
+        insert into hhtally.bill value (#{userId},#{labelId},#{money},#{time},#{remark},#{shopkeeper})
     </insert>
 
     <delete id="remove">
-        delete from hhtally.label where userId=#{userId}
+        delete from hhtally.bill where billId=#{billId}
     </delete>
+
+    <select id="getByDate" resultType="Bill">
+        select * from hhtally.bill where time=#{time}
+    </select>
+    <select id="getByLabel" resultType="Bill">
+        select * from hhtally.bill where labelId=#{labelId}
+    </select>
+    <select id="getAll" resultType="Bill">
+        select * from hhtally.bill
+    </select>
 </mapper>
