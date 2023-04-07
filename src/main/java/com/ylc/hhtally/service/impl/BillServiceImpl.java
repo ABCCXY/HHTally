@@ -11,24 +11,18 @@ import java.util.List;
 @Service
 public class BillServiceImpl implements BillService {
     @Autowired
-    BillMapper billMapper;
+    private BillMapper billMapper;
 
     @Override
-    public String add(Bill bill) {
-        String msg=null;
+    public boolean add(Bill bill) {
         int i = billMapper.add(bill);
-        if (i==1)msg="账单添加成功";
-        else msg="账单添加失败";
-        return msg;
+        return i == 1;
     }
 
     @Override
-    public String remove(int billId) {
-        String msg=null;
+    public boolean remove(int billId) {
         int i = billMapper.remove(billId);
-        if (i==1)msg="账单删除成功";
-        else msg="账单删除失败";
-        return msg;
+        return i==1;
     }
 
     @Override

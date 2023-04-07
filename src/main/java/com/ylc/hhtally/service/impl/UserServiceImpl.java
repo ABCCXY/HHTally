@@ -1,5 +1,6 @@
 package com.ylc.hhtally.service.impl;
 
+import com.ylc.hhtally.common.ResultJson;
 import com.ylc.hhtally.mapper.UserMapper;
 import com.ylc.hhtally.pojo.User;
 import com.ylc.hhtally.service.UserService;
@@ -9,9 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
+
     @Override
-    public String login(String username, String password) {
+    public ResultJson login(String username, String password) {
         String msg=null;
         User user = userMapper.login(username);
         if (null==user)msg="用户名错误";

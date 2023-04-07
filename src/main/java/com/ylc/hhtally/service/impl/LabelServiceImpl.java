@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class LabelServiceImpl implements LabelService {
     @Autowired
-    LabelMapper labelMapper;
+    private LabelMapper labelMapper;
 
     @Override
     public String add(Label label) {
