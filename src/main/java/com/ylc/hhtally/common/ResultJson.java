@@ -22,6 +22,14 @@ public class ResultJson implements Serializable {
         return new ResultJson(resultCode.code(), resultCode.message(), data);
     }
 
+    public static ResultJson success(Integer code, String msg, Object data){
+        return new ResultJson(code,msg,data);
+    }
+
+    public static ResultJson success(Integer code, String msg){
+        return new ResultJson(code,msg,null);
+    }
+
     public static ResultJson failed(ResultCode resultCode) {
         return new ResultJson(resultCode.code(), resultCode.message(), null);
     }

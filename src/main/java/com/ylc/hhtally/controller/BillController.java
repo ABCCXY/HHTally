@@ -24,22 +24,26 @@ public class BillController {
         return billService.add(bill);
     }
 
+    @ResponseBody
     @DeleteMapping("/remove")
     public ResultJson remove(int billId){
         return billService.remove(billId);
     }
 
+    @ResponseBody
     @GetMapping("/getByDate")
     public ResultJson getByDate(String date){
 
         return billService.getByDate(date);
     }
 
+    @ResponseBody
     @GetMapping("/getByLabel")
     public ResultJson getByLabel(int labelId){
         return billService.getByLabel(labelId);
     }
 
+    @ResponseBody
     @GetMapping("/getAll")
     public ResultJson getAll(){
         return billService.getAll();

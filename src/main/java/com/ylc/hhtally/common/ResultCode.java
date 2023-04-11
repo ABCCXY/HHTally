@@ -4,7 +4,7 @@ package com.ylc.hhtally.common;
 */
 public enum ResultCode {
 	/* 默认成功状态码 */
-	SUCCESS(1, "操作成功"),
+	SUCCESS(200, "操作成功"),
 
 	/* 默认失败状态码 */
 	ERROR(2, "操作失败，未知指定错误信息"),
