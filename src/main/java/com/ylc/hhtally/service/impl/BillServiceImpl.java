@@ -1,5 +1,7 @@
 package com.ylc.hhtally.service.impl;
 
+import com.ylc.hhtally.common.ResultCode;
+import com.ylc.hhtally.common.ResultJson;
 import com.ylc.hhtally.mapper.BillMapper;
 import com.ylc.hhtally.pojo.Bill;
 import com.ylc.hhtally.service.BillService;
@@ -14,29 +16,29 @@ public class BillServiceImpl implements BillService {
     private BillMapper billMapper;
 
     @Override
-    public boolean add(Bill bill) {
+    public ResultJson add(Bill bill) {
         int i = billMapper.add(bill);
-        return i == 1;
+        return i == 1?ResultJson.success(ResultCode.SUCCESS,null):ResultJson.failed(ResultCode.ERROR);
     }
 
     @Override
-    public boolean remove(int billId) {
+    public ResultJson remove(int billId) {
         int i = billMapper.remove(billId);
-        return i==1;
+        return i==1?ResultJson.success(ResultCode.SUCCESS,null):ResultJson.failed(ResultCode.ERROR);
     }
 
     @Override
-    public List<Bill> getAll() {
-        return billMapper.getAll();
+    public ResultJson getAll() {
+        return ResultJson.success(ResultCode.SUCCESS, billMapper.getAll());
     }
 
     @Override
-    public List<Bill> getByDate(String time) {
-        return billMapper.getByDate(time);
+    public ResultJson getByDate(String time) {
+        return ResultJson.success(ResultCode.SUCCESS, billMapper.getByDate(time));
     }
 
     @Override
-    public List<Bill> getByLabel(int labelId) {
-        return billMapper.getByLabel(labelId);
+    public ResultJson getByLabel(int labelId) {
+        return ResultJson.success(ResultCode.SUCCESS, billMapper.getByLabel(labelId));
     }
 }

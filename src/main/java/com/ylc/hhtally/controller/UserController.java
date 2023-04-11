@@ -21,8 +21,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String register(String username,String password){
-        String msg=userService.register(username, password);
-        return msg;
+    public ResultJson register(String username,String password){
+        return userService.register(username, password);
     }
 }

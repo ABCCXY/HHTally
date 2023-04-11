@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Controller
 @RequestMapping("/bill")
@@ -22,30 +21,27 @@ public class BillController {
         if (null==bill.getTime()){
             bill.setTime(LocalDate.now().toString());
         }
-        boolean ret = billService.add(bill);
-        if (!ret)return ResultJson.failed(-1,"账单添加失败");
-        else return ResultJson.success("账单添加成功");
+        return billService.add(bill);
     }
 
     @DeleteMapping("/remove")
     public ResultJson remove(int billId){
-        boolean ret = billService.remove(billId);
-        return ;
+        return billService.remove(billId);
     }
 
     @GetMapping("/getByDate")
-    public List<Bill> getByDate(String date){
+    public ResultJson getByDate(String date){
 
         return billService.getByDate(date);
     }
 
     @GetMapping("/getByLabel")
-    public List<Bill> getByLabel(int labelId){
+    public ResultJson getByLabel(int labelId){
         return billService.getByLabel(labelId);
     }
 
     @GetMapping("/getAll")
-    public List<Bill> getAll(){
+    public ResultJson getAll(){
         return billService.getAll();
     }
 }

@@ -1,8 +1,8 @@
 package com.ylc.hhtally.service;
 
-import com.ylc.hhtally.pojo.User;
+import com.ylc.hhtally.common.ResultJson;
 
 public interface UserService {
-    String login(String username,String password);
-    String register(String username,String password);
+    ResultJson login(String username, String password);
+    ResultJson register(String username,String password);
 }

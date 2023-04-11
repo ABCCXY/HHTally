@@ -1,6 +1,6 @@
 package com.ylc.hhtally.controller;
 
-import com.ylc.hhtally.mapper.LabelMapper;
+import com.ylc.hhtally.common.ResultJson;
 import com.ylc.hhtally.pojo.Label;
 import com.ylc.hhtally.service.LabelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/label")
@@ -20,19 +19,19 @@ public class LabelController {
 
 
     @PostMapping("/add")
-    public String add(String labelName){
+    public ResultJson add(String labelName){
         Label label = new Label();
         label.setLabelName(labelName);
 
         return labelService.add(label);
     }
     @DeleteMapping("/remove")
-    public String remove(int labelId){
+    public ResultJson remove(int labelId){
         return labelService.remove(labelId);
     }
 
     @GetMapping("/getAll")
-    public List<Label> getAll(){
+    public ResultJson getAll(){
         return labelService.getAll();
     }
 }

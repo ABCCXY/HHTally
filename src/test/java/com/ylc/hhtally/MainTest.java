@@ -15,7 +15,7 @@ public class MainTest {
         billList.add(bill1);
         billList.add(bill2);
         billList.add(bill3);
-        System.out.println(ResultJson.success(billList));
-        System.out.println(ResultJson.failed(401, "yonghum"));
+//        System.out.println(ResultJson.success(billList));
+//        System.out.println(ResultJson.failed(401, "yonghum"));
     }
 }

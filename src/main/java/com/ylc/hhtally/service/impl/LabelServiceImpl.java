@@ -1,5 +1,7 @@
 package com.ylc.hhtally.service.impl;
 
+import com.ylc.hhtally.common.ResultCode;
+import com.ylc.hhtally.common.ResultJson;
 import com.ylc.hhtally.mapper.LabelMapper;
 import com.ylc.hhtally.pojo.Label;
 import com.ylc.hhtally.service.LabelService;
@@ -13,26 +15,21 @@ public class LabelServiceImpl implements LabelService {
     private LabelMapper labelMapper;
 
     @Override
-    public String add(Label label) {
-        String msg=null;
+    public ResultJson add(Label label) {
         int i = labelMapper.add(label);
-        if (i==1)msg="添加成功";
-        else msg="添加失败";
-        return msg;
+        if (i==1)return ResultJson.success(ResultCode.SUCCESS, null);
+        else return ResultJson.failed(ResultCode.ERROR);
     }
 
     @Override
-    public String remove(int labelId) {
-        String msg=null;
+    public ResultJson remove(int labelId) {
         int i = labelMapper.remove(labelId);
-        if (i==1)msg="删除成功";
-        else msg="删除失败";
-        return msg;
+        if (i==1)return ResultJson.success(ResultCode.SUCCESS, null);
+        else return ResultJson.failed(ResultCode.ERROR);
     }
 
     @Override
-    public List<Label> getAll() {
-        List<Label> labelList = labelMapper.getAll();
-        return labelList;
+    public ResultJson getAll() {
+        return ResultJson.success(ResultCode.SUCCESS, labelMapper.getAll());
     }
 }
