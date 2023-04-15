@@ -15,10 +15,13 @@ public class JwtUtil {
      * */
     private static final long EXPIRE_TIME = 5 * 60 * 1000;
 
+
     /**
      * jwt密钥
      * */
     private static final String SECRET = "jwt_secret";
+
+    public static String userId = null;
 
     /**
      * 生成jwt字符串，五分钟后过期  JWT(json web token)
@@ -84,6 +87,7 @@ public class JwtUtil {
                     //.withClaim("username, username)
                     .build();
             verifier.verify(token);
+            userId = JWT.decode(token).getAudience().get(0);
             return true;
         }catch (JWTVerificationException e) {
             throw new RuntimeException("token 无效，请重新获取");

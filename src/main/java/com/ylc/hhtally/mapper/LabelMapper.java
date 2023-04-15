@@ -1,6 +1,7 @@
 package com.ylc.hhtally.mapper;
 
 import com.ylc.hhtally.pojo.Label;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,5 +10,6 @@ import java.util.List;
 public interface LabelMapper {
     List<Label> getAll();
     int add(Label label);
-    int remove(int labelId);
+    int remove(@Param("labelId") int labelId,@Param("userId") int userId);
+    int addReturn(String labelName);
 }

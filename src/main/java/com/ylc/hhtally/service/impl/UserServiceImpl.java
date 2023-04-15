@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
         }
         else  {
             if (user.getPassword().equals(password)){
-                return ResultJson.success(ResultCode.SUCCESS, JwtUtil.sign(String.valueOf(user.getUserId()),null));
+                return ResultJson.success(ResultCode.SUCCESS.code(), "登录成功", JwtUtil.sign( String.valueOf(user.getUserId()),null));
             }
             else return ResultJson.failed(ResultCode.USER_LOGIN_ERROR);
         }
@@ -31,10 +31,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultJson register(String username,String password) {
+        if (userMapper.login(username)!=null){
+            return ResultJson.failed(ResultCode.ERROR.code(),"用户名已存在");
+        }
         int i = userMapper.register(username, password);
         if (i==1){
-            return ResultJson.success(ResultCode.SUCCESS,null);
+            return ResultJson.success(ResultCode.SUCCESS.code(),"注册成功");
         }
-        else return ResultJson.failed(ResultCode.ERROR);
+        else return ResultJson.failed(ResultCode.ERROR.code(),"注册失败");
     }
 }

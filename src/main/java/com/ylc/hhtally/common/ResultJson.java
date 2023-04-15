@@ -33,6 +33,9 @@ public class ResultJson implements Serializable {
     public static ResultJson failed(ResultCode resultCode) {
         return new ResultJson(resultCode.code(), resultCode.message(), null);
     }
+    public static ResultJson failed(Integer code, String msg){
+        return new ResultJson(code,msg,null);
+    }
 
     @Override
     public String toString() {

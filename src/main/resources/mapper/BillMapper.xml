@@ -4,20 +4,21 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ylc.hhtally.mapper.BillMapper">
     <insert id="add" parameterType="Bill">
-        insert into hhtally.bill value (#{userId},#{labelId},#{money},#{time},#{remark},#{shopkeeper})
+        insert into hhtally.bill(userId,labelId,money,time,remark,shopkeeper) value (#{userId},#{labelId},#{money},#{time},#{remark},#{shopkeeper})
     </insert>
 
     <delete id="remove">
-        delete from hhtally.bill where billId=#{billId}
+        delete from hhtally.bill where billId=#{billId} and userId=#{userId}
     </delete>
 
     <select id="getByDate" resultType="Bill">
-        select * from hhtally.bill where time=#{time}
+        select * from hhtally.bill where time between #{time1} and #{time2} and userId=#{userId}
     </select>
+
     <select id="getByLabel" resultType="Bill">
-        select * from hhtally.bill where labelId=#{labelId}
+        select * from hhtally.bill where labelId=#{labelId} and userId=#{userId}
     </select>
     <select id="getAll" resultType="Bill">
-        select * from hhtally.bill
+        select * from hhtally.bill where userId=#{userId}
     </select>
 </mapper>

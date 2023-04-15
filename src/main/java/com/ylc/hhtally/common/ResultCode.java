@@ -7,7 +7,7 @@ public enum ResultCode {
 	SUCCESS(200, "操作成功"),
 
 	/* 默认失败状态码 */
-	ERROR(2, "操作失败，未知指定错误信息"),
+	ERROR(500, "操作失败，未知指定错误信息"),
 
 	/* 参数错误：10001-19999 */
 	PARAM_IS_INVALID(10001, "参数无效"),
@@ -17,9 +17,9 @@ public enum ResultCode {
 
 	/* 用户错误：20001-29999*/
 	USER_NOT_LOGIN(20001, "用户未登录"),
-	USER_LOGIN_ERROR(20002, "账号不存在或密码错误"),
+	USER_LOGIN_ERROR(500, "密码错误"),
 	USER_ACCOUNT_FORBIDDEN(20003, "账号已被禁用"),
-	USER_NOT_EXIST(20004, "用户不存在"),
+	USER_NOT_EXIST(500, "用户不存在"),
 	USER_HAS_EXISTED(20005, "用户已存在"),
 
 	/* 业务错误：30001-39999 */

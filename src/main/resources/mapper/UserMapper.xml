@@ -8,6 +8,6 @@
     </select>
 
     <insert id="register">
-        insert into hhtally.user value (#{username},#{password})
+        insert into hhtally.user(username, password) value (#{username},#{password})
     </insert>
 </mapper>
