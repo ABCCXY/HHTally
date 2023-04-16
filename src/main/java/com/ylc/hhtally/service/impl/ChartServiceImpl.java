@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,14 +79,6 @@ public class ChartServiceImpl implements ChartService {
         return new ResultJson(ResultCode.SUCCESS.code(), "查询成功！",dataMap);
     }
 
-    public double getMonthSum(Double[] month){
-        double sum=0;
-        for (int i = 0; i < month.length; i++) {
-            sum+=month[i];
-        }
-        return sum;
-    }
-
     @Override
     public ResultJson getMonthInfor(String year,String month) {
         double monthSum=0;
@@ -97,6 +90,7 @@ public class ChartServiceImpl implements ChartService {
         int nowYear=calendar.get(Calendar.YEAR);
         int nowMon=calendar.get(Calendar.MONTH)+1;
         int nowDay=calendar.get(Calendar.DATE);
+
         if (year1==nowYear&&month1==nowMon){
             cntDay=nowDay;
         }else if (year1>nowYear||year1<=nowYear&&month1>nowMon){
@@ -112,9 +106,7 @@ public class ChartServiceImpl implements ChartService {
         double[] everyday=new double[31];
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         for (int i = 1; i <=cntDay; i++) {
-            startTime = sdf.format(year+"-"+month+"-"+i);
-            endTime = sdf.format(year+"-"+month+"-"+(i+1));
-            day= chartMapper.getDaySum(startTime,endTime,Integer.parseInt(JwtUtil.userId));
+            day= chartMapper.getDaySum(year,month,String.valueOf(i),Integer.parseInt(JwtUtil.userId));
             everyday[i-1]=getDaySum(day);
         }
 
@@ -124,6 +116,34 @@ public class ChartServiceImpl implements ChartService {
         dataMap.put("everyday",everyday);
         return new ResultJson(ResultCode.SUCCESS.code(), "查询成功！",dataMap);
     }
+
+    @Override
+    public ResultJson getWeekInfor() {
+        double weekSum=0;
+        double[] everyday = new double[7];
+        Double[] day=null;
+        String startTime;
+        String endTime;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        for (int i = 0; i < 7; i++) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - i);
+            int nowYear=calendar.get(Calendar.YEAR);
+            int nowMon=calendar.get(Calendar.MONTH)+1;
+            int nowDay=calendar.get(Calendar.DATE);
+            day=chartMapper.getDaySum(String.valueOf(nowYear),String.valueOf(nowMon),String.valueOf(nowDay),Integer.parseInt(JwtUtil.userId));
+            everyday[i]=getDaySum(day);
+            weekSum+=everyday[i];
+        }
+
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("weekSum",weekSum);
+        dataMap.put("dayAverage",weekSum/7);
+        dataMap.put("everyday",everyday);
+
+        return new ResultJson(ResultCode.SUCCESS.code(), "查询成功！",dataMap);
+    }
+
     public int cntDay(int year,int month){
         int cnt=0;
         switch (month){
@@ -146,38 +166,17 @@ public class ChartServiceImpl implements ChartService {
         if (year%4==0&&year%100!=0 || year%400==0)return true;
         else return false;
     }
-
-    @Override
-    public ResultJson getWeekInfor() {
-        double weekSum=0;
-        double[] everyday = new double[7];
-        Double[] day=null;
-        String startTime;
-        String endTime;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        for (int i = 0; i < 7; i++) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - i);
-            startTime = sdf.format(calendar.getTime());
-            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
-            endTime = sdf.format(calendar.getTime());
-
-            day=chartMapper.getDaySum(startTime,endTime,Integer.parseInt(JwtUtil.userId));
-            everyday[i]=getDaySum(day);
-            weekSum+=everyday[i];
-        }
-
-        Map<String, Object> dataMap = new HashMap<String, Object>();
-        dataMap.put("weekSum",weekSum);
-        dataMap.put("dayAverage",weekSum/7);
-        dataMap.put("everyday",everyday);
-
-        return new ResultJson(ResultCode.SUCCESS.code(), "查询成功！",dataMap);
-    }
     public double getDaySum(Double[] day){
         double sum=0;
         for (int i = 0; i < day.length; i++) {
             sum+=day[i];
+        }
+        return sum;
+    }
+    public double getMonthSum(Double[] month){
+        double sum=0;
+        for (int i = 0; i < month.length; i++) {
+            sum+=month[i];
         }
         return sum;
     }

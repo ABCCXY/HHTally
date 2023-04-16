@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 public interface ChartMapper {
     Double[] getMonthSumIncome(@Param("month") String month,@Param("userId") int userId);
     Double[] getMonthSum(@Param("month") String month,@Param("userId") int userId);
-    Double[] getDaySum(@Param("time1") String time1,@Param("time2") String time2,@Param("userId") int userId);
+    Double[] getDaySum(@Param("year") String year,@Param("month") String month,@Param("day") String day,@Param("userId") int userId);
 }

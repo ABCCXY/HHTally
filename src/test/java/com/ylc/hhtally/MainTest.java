@@ -17,14 +17,13 @@ public class MainTest {
         String endTime;
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 20; i++) {
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - i);
-            startTime = sdf.format(calendar.getTime());
-            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
-            endTime = sdf.format(calendar.getTime());
-
-            System.out.println(startTime+"---"+endTime);
+            int nowYear=calendar.get(Calendar.YEAR);
+            int nowMon=calendar.get(Calendar.MONTH)+1;
+            int nowDay=calendar.get(Calendar.DATE);
+            System.out.println(nowYear+"-"+nowMon+"-"+nowDay);
         }
     }
 }

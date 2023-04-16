@@ -8,7 +8,8 @@
     </select>
 
     <select id="getDaySum" resultType="Double">
-        select money from hhtally.bill where time between #{time1} and #{time2} and userId=#{userId}
+        select money from hhtally.bill
+        where year(time)=#{year} and month(time)=#{month} and day(time)=#{day} and userId=#{userId}
     </select>
 
     <select id="getMonthSumIncome" resultType="java.lang.Double">
