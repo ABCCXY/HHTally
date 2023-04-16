@@ -14,7 +14,7 @@ public class ChartController {
     @Autowired
     private ChartService chartService;
 
-    @GetMapping("getYearIncome")
+    @GetMapping("/getYearIncome")
     public ResultJson getYearIncome(String year){
         return  chartService.getYearIncome(year);
     }
