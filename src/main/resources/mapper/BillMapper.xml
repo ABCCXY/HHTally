@@ -12,13 +12,18 @@
     </delete>
 
     <select id="getByDate" resultType="Bill">
-        select * from hhtally.bill where time between #{time1} and #{time2} and userId=#{userId}
+        select * from hhtally.bill
+        where time between #{time1} and #{time2} and userId=#{userId}
+        order by time
     </select>
 
     <select id="getByLabel" resultType="Bill">
-        select * from hhtally.bill where labelId=#{labelId} and userId=#{userId}
+        select * from hhtally.bill
+        where labelId=#{labelId} and userId=#{userId}
+        order by time
     </select>
     <select id="getAll" resultType="Bill">
         select * from hhtally.bill where userId=#{userId}
+        order by time
     </select>
 </mapper>
