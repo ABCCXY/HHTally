@@ -106,9 +106,22 @@ public class ChartServiceImpl implements ChartService {
         Double[] mon=chartMapper.getMonthSum(month, Integer.parseInt(JwtUtil.userId));
         monthSum=getMonthSum(mon);
 
+        Double[] day=null;
+        String startTime;
+        String endTime;
+        double[] everyday=new double[31];
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        for (int i = 1; i <=cntDay; i++) {
+            startTime = sdf.format(year+"-"+month+"-"+i);
+            endTime = sdf.format(year+"-"+month+"-"+(i+1));
+            day= chartMapper.getDaySum(startTime,endTime,Integer.parseInt(JwtUtil.userId));
+            everyday[i-1]=getDaySum(day);
+        }
+
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("monthSum",monthSum);
         dataMap.put("dayAverage",monthSum/cntDay);
+        dataMap.put("everyday",everyday);
         return new ResultJson(ResultCode.SUCCESS.code(), "查询成功！",dataMap);
     }
     public int cntDay(int year,int month){

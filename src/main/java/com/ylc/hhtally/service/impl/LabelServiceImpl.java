@@ -37,6 +37,6 @@ public class LabelServiceImpl implements LabelService {
 
     @Override
     public ResultJson getAll() {
-        return ResultJson.success(ResultCode.SUCCESS.code(), "获取成功", labelMapper.getAll());
+        return ResultJson.success(ResultCode.SUCCESS.code(), "获取成功", labelMapper.getAll(Integer.parseInt(JwtUtil.userId)));
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface LabelMapper {
-    List<Label> getAll();
+    List<Label> getAll(int userId);
     int add(Label label);
     int remove(@Param("labelId") int labelId,@Param("userId") int userId);
     int addReturn(String labelName);

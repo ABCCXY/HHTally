@@ -6,11 +6,12 @@
     <select id="getMonthSum" resultType="Double">
         select money from hhtally.bill where month(time)=#{month} and userId=#{userId}
     </select>
+
     <select id="getDaySum" resultType="Double">
         select money from hhtally.bill where time between #{time1} and #{time2} and userId=#{userId}
     </select>
 
     <select id="getMonthSumIncome" resultType="java.lang.Double">
-        select money from hhtally.bill where month(time)=#{month} and userId=#{userId} and money>0
+        select money from hhtally.bill where month(time)=#{month} and userId=#{userId} and money <![CDATA[<]]> 0
     </select>
 </mapper>
