@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,9 +25,11 @@ public class ChartServiceImpl implements ChartService {
         double[] monthSum = new double[12];
         int cntMon=12;
         int year1=Integer.parseInt(year);
+
         Calendar calendar=Calendar.getInstance();
         int nowYear=calendar.get(Calendar.YEAR);
         int nowMon=calendar.get(Calendar.MONTH)+1;
+
         if (year1==nowYear){
             cntMon=nowMon;
         }else if (year1>nowYear){
@@ -36,7 +37,7 @@ public class ChartServiceImpl implements ChartService {
         }
 
         for (int i = 0; i <cntMon ; i++) {
-            month=chartMapper.getMonthSumIncome(String.valueOf(i+1), Integer.parseInt(JwtUtil.userId));
+            month=chartMapper.getMonthIncome(year,String.valueOf(i+1), Integer.parseInt(JwtUtil.userId));
             monthSum[i]=getMonthSum(month);
             yearSum+=monthSum[i];
         }
@@ -50,15 +51,78 @@ public class ChartServiceImpl implements ChartService {
     }
 
     @Override
+    public ResultJson getMonthIncome(String year, String month) {
+        double monthSum=0;
+        int year1=Integer.parseInt(year);
+        int month1=Integer.parseInt(month);
+        int cntDay=cntDay(year1,month1);
+
+        Calendar calendar=Calendar.getInstance();
+        int nowYear=calendar.get(Calendar.YEAR);
+        int nowMon=calendar.get(Calendar.MONTH)+1;
+        int nowDay=calendar.get(Calendar.DATE);
+
+        if (year1==nowYear&&month1==nowMon){
+            cntDay=nowDay;
+        }else if (year1>nowYear||year1==nowYear&&month1>nowMon){
+            return ResultJson.failed(ResultCode.ERROR.code(),"查询失败");
+        }
+
+        Double[] mon=chartMapper.getMonthIncome(year,month, Integer.parseInt(JwtUtil.userId));
+        monthSum=getMonthSum(mon);
+
+        Double[] day=null;
+        double[] everyday=new double[31];
+        for (int i = 1; i <=cntDay; i++) {
+            day= chartMapper.getDayIncome(year,month,String.valueOf(i),Integer.parseInt(JwtUtil.userId));
+            everyday[i-1]=getDaySum(day);
+        }
+
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("monthSum",monthSum);
+        dataMap.put("dayAverage",monthSum/cntDay);
+        dataMap.put("everyday",everyday);
+        return new ResultJson(ResultCode.SUCCESS.code(), "查询成功！",dataMap);
+    }
+
+    @Override
+    public ResultJson getWeekIncome() {
+        double weekSum=0;
+        double[] everyday = new double[7];
+        Double[] day=null;
+
+        for (int i = 0; i < 7; i++) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - i);
+            int nowYear=calendar.get(Calendar.YEAR);
+            int nowMon=calendar.get(Calendar.MONTH)+1;
+            int nowDay=calendar.get(Calendar.DATE);
+            day=chartMapper.getDayIncome(String.valueOf(nowYear),String.valueOf(nowMon),String.valueOf(nowDay),Integer.parseInt(JwtUtil.userId));
+            everyday[i]=getDaySum(day);
+            weekSum+=everyday[i];
+        }
+
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("weekSum",weekSum);
+        dataMap.put("dayAverage",weekSum/7);
+        dataMap.put("everyday",everyday);
+
+        return new ResultJson(ResultCode.SUCCESS.code(), "查询成功！",dataMap);
+    }
+
+
+    @Override
     public ResultJson getYearInfor(String year) {
         double yearSum=0;
         Double[] month=null;
         double[] monthSum = new double[12];
         int cntMon=12;
         int year1=Integer.parseInt(year);
+
         Calendar calendar=Calendar.getInstance();
         int nowYear=calendar.get(Calendar.YEAR);
         int nowMon=calendar.get(Calendar.MONTH)+1;
+
         if (year1==nowYear){
             cntMon=nowMon;
         }else if (year1>nowYear){
@@ -66,7 +130,7 @@ public class ChartServiceImpl implements ChartService {
         }
 
         for (int i = 0; i <cntMon ; i++) {
-            month=chartMapper.getMonthSum(String.valueOf(i+1), Integer.parseInt(JwtUtil.userId));
+            month=chartMapper.getMonthInfor(year,String.valueOf(i+1), Integer.parseInt(JwtUtil.userId));
             monthSum[i]=getMonthSum(month);
             yearSum+=monthSum[i];
         }
@@ -93,20 +157,17 @@ public class ChartServiceImpl implements ChartService {
 
         if (year1==nowYear&&month1==nowMon){
             cntDay=nowDay;
-        }else if (year1>nowYear||year1<=nowYear&&month1>nowMon){
+        }else if (year1>nowYear||year1==nowYear&&month1>nowMon){
             return ResultJson.failed(ResultCode.ERROR.code(),"查询失败");
         }
 
-        Double[] mon=chartMapper.getMonthSum(month, Integer.parseInt(JwtUtil.userId));
+        Double[] mon=chartMapper.getMonthInfor(year,month, Integer.parseInt(JwtUtil.userId));
         monthSum=getMonthSum(mon);
 
         Double[] day=null;
-        String startTime;
-        String endTime;
         double[] everyday=new double[31];
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         for (int i = 1; i <=cntDay; i++) {
-            day= chartMapper.getDaySum(year,month,String.valueOf(i),Integer.parseInt(JwtUtil.userId));
+            day= chartMapper.getDayIncome(year,month,String.valueOf(i),Integer.parseInt(JwtUtil.userId));
             everyday[i-1]=getDaySum(day);
         }
 
@@ -122,16 +183,14 @@ public class ChartServiceImpl implements ChartService {
         double weekSum=0;
         double[] everyday = new double[7];
         Double[] day=null;
-        String startTime;
-        String endTime;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
         for (int i = 0; i < 7; i++) {
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - i);
             int nowYear=calendar.get(Calendar.YEAR);
             int nowMon=calendar.get(Calendar.MONTH)+1;
             int nowDay=calendar.get(Calendar.DATE);
-            day=chartMapper.getDaySum(String.valueOf(nowYear),String.valueOf(nowMon),String.valueOf(nowDay),Integer.parseInt(JwtUtil.userId));
+            day=chartMapper.getDayInfor(String.valueOf(nowYear),String.valueOf(nowMon),String.valueOf(nowDay),Integer.parseInt(JwtUtil.userId));
             everyday[i]=getDaySum(day);
             weekSum+=everyday[i];
         }

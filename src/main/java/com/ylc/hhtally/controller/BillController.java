@@ -41,7 +41,6 @@ public class BillController {
     @ResponseBody
     @GetMapping("/getByDate")
     public ResultJson getByDate(String date) throws ParseException {
-
         return billService.getByDate(date);
     }
 

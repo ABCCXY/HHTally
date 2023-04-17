@@ -10,7 +10,7 @@ import java.util.List;
 public interface BillMapper {
     int add(Bill bill);
     int remove(@Param("billId")int billId,@Param("userId")int userId);
-    List<Bill> getByDate(@Param("time1") String time1,@Param("time2") String time2,@Param("userId") int userId);
+    List<Bill> getByDate(@Param("date") String date,@Param("userId") int userId);
     List<Bill> getByLabel(@Param("labelId") int labelId,@Param("userId") int userId);
     List<Bill> getAll(int userId);
 }

@@ -43,19 +43,9 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public ResultJson getByDate(String time) throws ParseException {
-        System.out.println("time:"+time);
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = dateFormat.parse(time);
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
-        calendar.add(Calendar.DATE,1);
-
-        String time2=dateFormat.format(calendar.getTime());
-        System.out.println("time2:"+time2);
-
-        return ResultJson.success(ResultCode.SUCCESS.code(),  "获取成功",billMapper.getByDate(time,time2, Integer.parseInt(JwtUtil.userId)));
+    public ResultJson getByDate(String date) throws ParseException {
+        System.out.println("date:"+date);
+        return ResultJson.success(ResultCode.SUCCESS.code(),  "获取成功",billMapper.getByDate(date, Integer.parseInt(JwtUtil.userId)));
     }
 
     @Override

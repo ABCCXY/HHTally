@@ -13,7 +13,7 @@
 
     <select id="getByDate" resultType="Bill">
         select * from hhtally.bill
-        where time between #{time1} and #{time2} and userId=#{userId}
+        where date(time)=#{date} and userId=#{userId}
         order by time
     </select>
 

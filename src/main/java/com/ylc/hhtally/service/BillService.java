@@ -10,6 +10,6 @@ public interface BillService {
     ResultJson add(Bill bill);
     ResultJson remove(int billId);
     ResultJson getAll();
-    ResultJson getByDate(String time) throws ParseException;
+    ResultJson getByDate(String date) throws ParseException;
     ResultJson getByLabel(int labelId);
 }

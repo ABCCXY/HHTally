@@ -19,6 +19,16 @@ public class ChartController {
         return  chartService.getYearIncome(year);
     }
 
+    @GetMapping("/getMonthIncome")
+    public ResultJson getMonthIncome(String year,String month){
+        return  chartService.getMonthIncome(year,month);
+    }
+
+    @GetMapping("/getWeekIncome")
+    public ResultJson getWeekIncome(){
+        return  chartService.getWeekIncome();
+    }
+
     @GetMapping("/getYearInfor")
     public ResultJson getYearInfor(String year){
         return chartService.getYearInfor(year);
