@@ -110,7 +110,6 @@ public class ChartServiceImpl implements ChartService {
         return new ResultJson(ResultCode.SUCCESS.code(), "查询成功！",dataMap);
     }
 
-
     @Override
     public ResultJson getYearInfor(String year) {
         double yearSum=0;
@@ -167,7 +166,7 @@ public class ChartServiceImpl implements ChartService {
         Double[] day=null;
         double[] everyday=new double[31];
         for (int i = 1; i <=cntDay; i++) {
-            day= chartMapper.getDayIncome(year,month,String.valueOf(i),Integer.parseInt(JwtUtil.userId));
+            day= chartMapper.getDayInfor(year,month,String.valueOf(i),Integer.parseInt(JwtUtil.userId));
             everyday[i-1]=getDaySum(day);
         }
 
